@@ -33,8 +33,9 @@ words_per_minute: 200
 comments:
   provider: "utterances"
 utterances:
-  theme: "github-dark" # "github-light" (default), "github-dark"
-  issue_term: # "pathname" (default)
+  repo: "hongmoSung/hongmoSung.github.io"
+  issue-term: "pathname"
+  theme: "github-dark"
 
 reCaptcha:
   siteKey:
