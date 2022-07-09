@@ -29,11 +29,13 @@ logo: # path of logo image to display in the masthead, e.g. "/assets/images/88x8
 masthead_title: # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute: 200
+
 comments:
   provider: "utterances"
-#utterances:
-#  theme: "github-dark" # "github-light" (default), "github-dark"
-#  issue_term: # "pathname" (default)
+utterances:
+  theme: "github-dark" # "github-light" (default), "github-dark"
+  issue_term: # "pathname" (default)
+
 reCaptcha:
   siteKey:
   secret:
