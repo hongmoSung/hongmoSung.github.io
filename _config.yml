@@ -31,9 +31,9 @@ masthead_title: # overrides the website title displayed in the masthead, use " "
 words_per_minute: 200
 comments:
   provider: "utterances"
-    utterances:
-      theme: "github-dark" # "github-light" (default), "github-dark"
-      issue_term: # "pathname" (default)
+utterances:
+  theme: "github-dark" # "github-light" (default), "github-dark"
+  issue_term: # "pathname" (default)
 reCaptcha:
   siteKey:
   secret:
