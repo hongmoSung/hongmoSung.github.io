@@ -30,7 +30,10 @@ masthead_title: # overrides the website title displayed in the masthead, use " "
 # breadcrumbs            : false # true, false (default)
 words_per_minute: 200
 comments:
-  provider: false
+  provider: "utterances"
+#utterances:
+#  theme: "github-dark" # "github-light" (default), "github-dark"
+#  issue_term: # "pathname" (default)
 reCaptcha:
   siteKey:
   secret:
