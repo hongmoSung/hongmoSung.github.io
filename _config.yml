@@ -104,8 +104,8 @@ analytics:
 author:
   name: "hongmo"
   avatar: "/assets/images/profile.jpeg"
-  bio: "I am an **amazing** person."
-  location: "Somewhere"
+  bio: "I am an **developer**."
+  location: "South korea"
   email:
   links:
     - label: "GitHub"
@@ -255,5 +255,5 @@ defaults:
       author_profile: true
       read_time: true
       comments: # true
-      share: true
+      share: false
       related: true
