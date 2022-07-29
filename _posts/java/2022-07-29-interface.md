@@ -1,5 +1,5 @@
 ---
-title: "추상 클래스"
+title: "인터페이스"
 categories:
   - java
 tags:
