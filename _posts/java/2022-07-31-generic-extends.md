@@ -45,6 +45,7 @@ class Apple extends Fruit{
 class Pencil {
 }
 
+// 과일로 타입으로 제한
 class Goods<T extends Fruit> {
     private T t;
     public T get() {
@@ -59,9 +60,9 @@ public class Test {
 
     public static void main(String[] args) {
         Goods<Fruit> fruitGoods = new Goods<>();
+        // 과일 타입은 가능
         fruitGoods.set(new Apple());
-        
-        // fruitGoods.set(new Pencil()); 불가능
+        // fruitGoods.set(new Pencil()); 아닌 경우 불가능
     }
 }
 
@@ -75,13 +76,14 @@ public <T extends 최상위 클래스 / 인터페이스명> T example(T t) {
 ```
 
 ```java
+// 클래스로 제한
 class A {
     <T extends String> void method(T t) {
         System.out.println(t.length());
     }
 }
 
-//
+// 인터페이스로 제한
 interface MyInterface {
     void print();
 }
@@ -97,6 +99,7 @@ class B {
 ### 메서드 매개변수일 때 제네릭 클래스의 타입 제한
 
 ```java
+// 상속 구조: A <- B <- C <- D 
 class A {}
 class B extends A {}
 class C extends B {}
@@ -154,7 +157,6 @@ public class Test3 {
 }
 
 ```
-
 
 ## 참조
 
