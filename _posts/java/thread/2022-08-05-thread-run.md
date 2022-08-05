@@ -1,5 +1,5 @@
 ---
-title: "프로그램, 프로세스, 쓰레드"
+title: "쓰레드(Thread)의 생성 및 실행"
 categories:
   - java
 tags:
