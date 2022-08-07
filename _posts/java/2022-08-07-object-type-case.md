@@ -3,10 +3,10 @@ title: "객체의 타입 변환"
 categories:
   - java
 tags:
-  - class
+  - upcasting
+  - downcasting
   - object
-  - extends
-  - inheritance
+  - type
 toc: true
 ---
 자료형이 서로 다를 때는 컴파일러가 자동으로 타입을 변환해 주거나 개발자가 직접 명시적으로 타입을 변환해 줘야한다.
