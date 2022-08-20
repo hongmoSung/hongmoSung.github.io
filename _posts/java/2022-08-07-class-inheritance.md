@@ -39,7 +39,7 @@ class 자식 extends 부모 {
 #### 자바의 클래스 다중 상속을 허용하지 않는 이유
 자바의 클래스는 **다중 상속이 불가능**한데,  
 여기서 다중 상속은 부모 클래스가 2개 이상일 때를 말한다.
-<img src="../../assets/images/java/class-inheritance-example3.jpeg" alt="">
+<img src="../../assets/images/java/class-inheritance-example3.jpeg" alt="">  
 김동형, ⌜Do it! 자바 완전 정복⌟, 이지스퍼블리싱, 2021, 311쪽
 
 위 그림을 예를 들면 A와 B 모두 data 필드를 포함하고 있다.  
