@@ -1,9 +1,8 @@
 ---
 title: "[더 자바 - 백기선] 클래스 로더"
 categories:
-  - java
   - inflearn
-  - 백기선
+  - the-java
 tags:
   - class-loader
 toc: true

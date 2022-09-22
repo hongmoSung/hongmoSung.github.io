@@ -1,9 +1,8 @@
 ---
 title: "[더 자바 - 백기선] JVM 구조"
 categories:
-  - java
   - inflearn
-  - 백기선
+  - the-java
 tags:
   - jvm
 toc: true
