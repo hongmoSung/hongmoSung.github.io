@@ -16,7 +16,7 @@ toc: true
 이러한 계층 구조에서 가장 사위의 디렉터리를 루트(/) 디렉터리라고 한다.  
 
 ### 파일 시스템 탐색
-- ### ls (list segments) : 디렉터리의 내용 출력
+- #### ls (list segments) : 디렉터리의 내용 출력
     ```shell
     > ls [opstions] [names]
     ```
@@ -34,7 +34,7 @@ toc: true
     | -S    | --sort=size       | 파일의 크기 순서로 결과를 보여 준다.                                           |
     | -t    | --sort=time       | 최종 수정 시간 순으로 보여 준다.                                             |
 
-- ### cd (change directory) : 현재 작업 디렉터리의 이동
+- #### cd (change directory) : 현재 작업 디렉터리의 이동
     ```shell
     > cd [directory]
     ```
