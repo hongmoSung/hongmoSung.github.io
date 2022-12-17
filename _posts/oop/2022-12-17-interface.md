@@ -3,7 +3,7 @@ title: "What Is an Interface?"
 categories:
   - oop
 tags:
-  - inheritance
+  - interface
 toc: true
 ---
 객체는 노출된 메서드를 통해 외부 세계와의 상호 작용을 정의합니다.  
