@@ -67,3 +67,4 @@ toc: true
 ## 참조
 - [UNIX 시스템](http://www.yes24.com/Product/Goods/86687341)
 - [생활코딩 리눅스 강좌](https://www.inflearn.com/course/생활코딩-리눅스-강좌)
+- [linux-file-system-structure](https://www.thegeekstuff.com/2010/09/linux-file-system-structure/)
