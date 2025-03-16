@@ -27,3 +27,8 @@ codekit-config.json
 .sass-cache
 _asset_bundler_cache
 _site
+
+# JetBrains IDEs (IntelliJ IDEA, PhpStorm, WebStorm, PyCharm, etc)
+.idea/
+*.iml
+out/
