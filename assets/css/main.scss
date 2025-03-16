@@ -4,13 +4,5 @@
 
 @charset "utf-8";
 
-// 최신 Sass 구문 사용
-@use "sass:color";
-@use "sass:math";
-
-// site.minimal_mistakes_skin의 값을 직접 사용하는 방식 (Jekyll은 여전히 이 값을 처리함)
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
-
-// 주의: 완전히 @use 구문으로 전환하려면 Jekyll 템플릿 변수가 처리되는 방식 때문에
-// 더 복잡한 변경이 필요합니다. 현재는 @import 유지 + 필요한 모듈만 @use 추가
