@@ -4,6 +4,8 @@
 
 [minimal-mistakes](https://mmistakes.github.io/minimal-mistakes/)
 
+[github](https://github.com/mmistakes/minimal-mistakes)
+
 ```shell
 # 의존성 설치
 bundle install                            

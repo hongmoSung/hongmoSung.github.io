@@ -11,8 +11,8 @@
 # https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
 # GitHub Pages와 호환되는 원격 테마 사용
-remote_theme: "mmistakes/minimal-mistakes@4.24.0"
-minimal_mistakes_skin: "dark" # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+remote_theme: "mmistakes/minimal-mistakes@4.26.2"
+minimal_mistakes_skin: "default" # CSS 변수를 통한 다크모드 구현을 위해 기본 스킨 사용
 
 # Site Settings
 locale: "ko-KR" # "en-US"
@@ -166,7 +166,8 @@ sass:
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: Asia/Seoul # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+date_format: "%Y-%m-%d" # 날짜 표시 형식 바꾸기
 
 # Plugins (previously gems:)
 plugins:

@@ -11,6 +11,16 @@
 
 <script>
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+  // 기본 테마 설정 (깨빡임 방지를 위한 초기 스크립트)
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
 </script>
 
 <!-- For all browsers -->
@@ -18,8 +28,15 @@
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
 
+<!-- 테마 토글 기능을 위한 CSS -->
+<link rel="stylesheet" href="{{ '/assets/css/theme-toggle.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+
 {% if site.head_scripts %}
   {% for script in site.head_scripts %}
     <script src="{{ script | relative_url }}"></script>
   {% endfor %}
 {% endif %}
+
+<!-- 테마 토글 스크립트 -->
+<script src="{{ '/assets/js/theme-toggle.js' | relative_url }}"></script>

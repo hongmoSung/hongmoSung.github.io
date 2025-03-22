@@ -1,0 +1,175 @@
+/* 테마 전환 시 추가 스타일 오버라이드 */
+/* 다크 모드에서의 특수 스타일 조정 */
+[data-theme="dark"] .page {
+  background-color: var(--background-color);
+}
+
+[data-theme="dark"] .page__content {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .page__title {
+  color: var(--heading-color);
+}
+
+/* 페이지 제목 링크 스타일 */
+.page__title a {
+  color: var(--link-color);
+}
+
+/* 다크모드일 때 페이지 제목 링크 스타일 */
+[data-theme="dark"] .page__title a {
+  color: var(--link-color);
+}
+
+[data-theme="dark"] .page__meta,
+[data-theme="dark"] .archive__item-title {
+  color: var(--heading-color);
+}
+
+/* 아카이브 항목 제목 링크 스타일 */
+.archive__item-title a {
+  color: var(--link-color);
+}
+
+/* 다크모드일 때 아카이브 항목 제목 링크 스타일 */
+[data-theme="dark"] .archive__item-title a {
+  color: var(--link-color);
+}
+
+[data-theme="dark"] .archive__item-excerpt {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .pagination--pager {
+  background-color: #333;
+  color: #eee;
+  border-color: #444;
+}
+
+[data-theme="dark"] .pagination--pager:hover {
+  background-color: #444;
+}
+
+[data-theme="dark"] pre,
+[data-theme="dark"] code {
+  background-color: var(--code-background);
+  color: var(--code-color);
+}
+
+[data-theme="dark"] .notice,
+[data-theme="dark"] .notice--primary,
+[data-theme="dark"] .notice--info,
+[data-theme="dark"] .notice--warning,
+[data-theme="dark"] .notice--success,
+[data-theme="dark"] .notice--danger {
+  background-color: #333;
+  color: #eee;
+}
+
+/* 코드 하이라이팅 오버라이드 */
+[data-theme="dark"] .highlight {
+  background-color: #2d2d2d;
+}
+
+[data-theme="dark"] .highlight .nt,
+[data-theme="dark"] .highlight .nc,
+[data-theme="dark"] .highlight .nn {
+  color: #a6e22e;
+}
+
+[data-theme="dark"] .highlight .na {
+  color: #66d9ef;
+}
+
+[data-theme="dark"] .highlight .s,
+[data-theme="dark"] .highlight .s1,
+[data-theme="dark"] .highlight .s2 {
+  color: #e6db74;
+}
+
+[data-theme="dark"] .highlight .k,
+[data-theme="dark"] .highlight .kd {
+  color: #f92672;
+}
+
+/* 사이드바 스타일 */
+[data-theme="dark"] .sidebar {
+  background-color: #222;
+}
+
+[data-theme="dark"] .author__name,
+[data-theme="dark"] .author__bio {
+  color: #eee;
+}
+
+[data-theme="dark"] .toc {
+  background-color: #333;
+  color: #eee;
+}
+
+[data-theme="dark"] .toc__menu a {
+  color: #ddd;
+}
+
+/* TOC 액티브 아이템 스타일 개선 */
+[data-theme="dark"] .toc .active a {
+  background-color: #444;
+  color: var(--link-color);
+}
+
+/* 푸터 스타일 */
+[data-theme="dark"] .page__footer {
+  background-color: #111;
+  color: #eee;
+}
+
+[data-theme="dark"] .page__footer a {
+  color: #6ab0de;
+}
+
+/* 모바일 내비게이션 메뉴 */
+[data-theme="dark"] .greedy-nav {
+  background-color: #222;
+}
+
+[data-theme="dark"] .greedy-nav a {
+  color: #eee;
+}
+
+[data-theme="dark"] .greedy-nav__toggle {
+  background-color: #333;
+}
+
+/* 검색 결과 */
+[data-theme="dark"] .search-content {
+  background-color: #222;
+}
+
+[data-theme="dark"] .search-content .search-input {
+  background-color: #333;
+  color: #eee;
+}
+
+[data-theme="dark"] .search-content .archive__item-title {
+  color: #eee;
+}
+
+/* 테이블 스타일 */
+[data-theme="dark"] thead {
+  background-color: #333;
+  border-bottom: 2px solid #555;
+  color: var(--text-color);
+}
+
+[data-theme="dark"] th {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] table {
+  border-color: #555;
+}
+
+[data-theme="dark"] td {
+  border-color: #555;
+}
