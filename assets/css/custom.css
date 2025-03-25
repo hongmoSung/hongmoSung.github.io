@@ -173,3 +173,41 @@
 [data-theme="dark"] td {
   border-color: #555;
 }
+
+/* 인라인 코드 백틱 스타일 수정 */
+[data-theme="dark"] .page__content :not(pre)>code,
+[data-theme="dark"] :not(pre)>code {
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  font-size: 0.8em;
+  background: #2d2d2d !important; /* 다크 모드에서의 배경색 */
+  color: #f8f8f2 !important; /* 다크 모드에서의 텍스트 색상 */
+  border-radius: 4px;
+}
+
+/* 코드 블록 컨테이너 스타일 */
+[data-theme="dark"] div.highlighter-rouge,
+[data-theme="dark"] figure.highlight {
+  background-color: #2d2d2d !important;
+  color: #f8f8f2 !important;
+}
+
+/* 코드 블록 내 모든 텍스트 색상 */
+[data-theme="dark"] .highlighter-rouge .highlight,
+[data-theme="dark"] .highlight pre code,
+[data-theme="dark"] .highlight code {
+  color: #f8f8f2 !important;
+}
+
+/* 코드 블록 내부의 일반 텍스트 색상 */
+[data-theme="dark"] .highlight .n,
+[data-theme="dark"] .highlight .p,
+[data-theme="dark"] .highlight .w,
+[data-theme="dark"] .highlight .nb,
+[data-theme="dark"] .highlight .bp,
+[data-theme="dark"] .highlight .nl,
+[data-theme="dark"] .highlight .nx,
+[data-theme="dark"] .highlight .py,
+[data-theme="dark"] .highlight .nt {
+  color: #f8f8f2 !important;
+}
