@@ -37,7 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleBtn = document.createElement('button');
     toggleBtn.className = 'theme-toggle';
     toggleBtn.setAttribute('aria-label', '테마 전환');
-    toggleBtn.onclick = toggleTheme;
+    toggleBtn.onclick = function(e) {
+      toggleTheme();
+      // 클릭 후 포커스 제거
+      setTimeout(function() {
+        toggleBtn.blur();
+      }, 100);
+    };
     
     // 현재 테마에 맞는 아이콘 설정
     const currentTheme = document.documentElement.getAttribute('data-theme');
