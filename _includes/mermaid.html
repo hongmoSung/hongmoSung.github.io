@@ -1,0 +1,29 @@
+{% if page.mermaid or site.mermaid %}
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // mermaid 초기화
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true
+      }
+    });
+    
+    // 코드 블록에서 mermaid 다이어그램 찾아서 렌더링
+    const mermaidBlocks = document.querySelectorAll('pre code.language-mermaid');
+    mermaidBlocks.forEach((block, index) => {
+      const code = block.textContent;
+      const pre = block.parentNode;
+      const container = document.createElement('div');
+      container.className = 'mermaid';
+      container.id = 'mermaid-' + index;
+      container.textContent = code;
+      pre.replaceWith(container);
+    });
+  });
+</script>
+{% endif %}
