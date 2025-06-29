@@ -33,6 +33,9 @@ words_per_minute         : 200
 enable_copy_code_button  : true
 copyright                : # "copyright" name, defaults to site.title
 copyright_url            : # "copyright" URL, defaults to site.url
+
+# Mermaid 지원 활성화
+mermaid: true
 comments:
   provider               : "utterances"
   disqus:
