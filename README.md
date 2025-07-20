@@ -8,9 +8,9 @@
 
 ```shell
 # 의존성 설치
-bundle install                            
+bundle install
 # 로컬 서버 실행
-bundle exec jekyll serve                  
+bundle exec jekyll serve
 # 캐시 청소
-bundle exec jekyll clean                  
+bundle exec jekyll clean
 ```
