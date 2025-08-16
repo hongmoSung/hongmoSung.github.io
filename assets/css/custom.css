@@ -211,3 +211,52 @@
 [data-theme="dark"] .highlight .nt {
   color: #f8f8f2 !important;
 }
+
+/* --- 라이트 모드 코드 블록 스타일 추가 --- */
+
+/* 라이트 모드 코드 블록 컨테이너 스타일 */
+[data-theme="light"] div.highlighter-rouge,
+[data-theme="light"] figure.highlight {
+    /*background-color: #f8f8f8 !important; !* 밝은 배경색 *!*/
+    background-color: #f0f0f0 !important; /* 추천 배경색 */
+    color: #333 !important; /* 기본 텍스트 색상 */
+}
+
+/* 라이트 모드 인라인 코드 스타일 */
+[data-theme="light"] .page__content :not(pre)>code,
+[data-theme="light"] :not(pre)>code {
+    background: #eef !important;
+    color: #333 !important;
+}
+
+/* 라이트 모드 코드 블록 내부 텍스트 색상 */
+[data-theme="light"] .highlight .n,
+[data-theme="light"] .highlight .p,
+[data-theme="light"] .highlight .w,
+[data-theme="light"] .highlight .nb,
+[data-theme="light"] .highlight .bp,
+[data-theme="light"] .highlight .nl,
+[data-theme="light"] .highlight .nx,
+[data-theme="light"] .highlight .py,
+[data-theme="light"] .highlight .nt,
+[data-theme="light"] .highlight .err {
+    color: #333 !important; /* 어두운 색상으로 변경 */
+}
+
+/* 라이트 모드에서 다른 구문 강조 토큰 색상 (선택 사항) */
+[data-theme="light"] .highlight .k,
+[data-theme="light"] .highlight .kd {
+    color: #008000; /* 키워드: 녹색 */
+}
+
+[data-theme="light"] .highlight .s,
+[data-theme="light"] .highlight .s1,
+[data-theme="light"] .highlight .s2 {
+    color: #d14; /* 문자열: 빨간색 */
+}
+
+[data-theme="light"] .highlight .c,
+[data-theme="light"] .highlight .c1 {
+    color: #998; /* 주석: 회색 */
+    font-style: italic;
+}
