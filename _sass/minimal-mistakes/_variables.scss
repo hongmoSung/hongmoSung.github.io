@@ -152,7 +152,7 @@ $medium: 768px !default;
 $medium-wide: 900px !default;
 $large: 1024px !default;
 $x-large: 1280px !default;
-$max-width: $x-large !default;
+$max-width: 1200px !default;  // 커스텀: 본문 최대 너비를 1200px로 제한하여 중앙 정렬 효과
 
 /*
    Grid

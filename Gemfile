@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gem "github-pages", group: :jekyll_plugins
 gem "webrick" # 로컬 호스팅을 위한 필요 Gem
 gem "faraday-retry"
+gem "minimal-mistakes-jekyll"
 
 group :jekyll_plugins do
   gem "jekyll-paginate"

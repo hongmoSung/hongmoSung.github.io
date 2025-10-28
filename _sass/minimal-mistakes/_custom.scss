@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Custom Styles
+   사용자 정의 스타일
+   ========================================================================== */
+
+/* 사이드바 없을 때 본문 영역 넓게 */
+.page {
+  @include breakpoint($large) {
+    float: none;
+    width: 100%;
+    padding-inline-end: 0;
+  }
+
+  @include breakpoint($x-large) {
+    width: 100%;
+    padding-inline-end: 0;
+  }
+}
+
+/* 본문 컨텐츠를 중앙 정렬하고 적절한 최대 너비 설정 */
+.page__inner-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 2em;
+  padding-right: 2em;
+}
