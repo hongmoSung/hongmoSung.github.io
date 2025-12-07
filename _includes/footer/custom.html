@@ -1,3 +1,42 @@
 <!-- start custom footer snippets -->
 
+<!-- 하이라이트 자동 변환 스크립트 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 페이지 콘텐츠 영역에서만 변환 (코드 블록 제외)
+    const contentArea = document.querySelector('.page__content');
+    if (!contentArea) return;
+
+    // 텍스트 노드를 재귀적으로 탐색하면서 ==text== 패턴 찾기
+    function processNode(node) {
+      // 코드 블록이나 pre 태그는 건너뛰기
+      if (node.tagName === 'PRE' || node.tagName === 'CODE') {
+        return;
+      }
+
+      // 텍스트 노드인 경우
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        // ==...== 패턴이 있는지 확인
+        if (/==.+?==/g.test(text)) {
+          // 패턴을 <mark> 태그로 변환
+          const newHTML = text.replace(/==(.+?)==/g, '<mark>$1</mark>');
+          const span = document.createElement('span');
+          span.innerHTML = newHTML;
+          node.parentNode.replaceChild(span, node);
+        }
+      }
+      // 자식 노드가 있는 경우 재귀적으로 처리
+      else if (node.childNodes && node.childNodes.length > 0) {
+        // 자식 노드를 배열로 복사 (DOM 변경 시 문제 방지)
+        const children = Array.from(node.childNodes);
+        children.forEach(child => processNode(child));
+      }
+    }
+
+    // 콘텐츠 영역의 모든 요소 처리
+    processNode(contentArea);
+  });
+</script>
+
 <!-- end custom footer snippets -->

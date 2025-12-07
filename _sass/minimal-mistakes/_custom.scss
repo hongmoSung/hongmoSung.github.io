@@ -24,3 +24,18 @@
   padding-left: 2em;
   padding-right: 2em;
 }
+
+/* 하이라이트 스타일 */
+mark {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+/* 다크모드에서 하이라이트 스타일 */
+[data-theme="dark"] mark {
+  background-color: #664d03;
+  color: #fff3cd;
+}
