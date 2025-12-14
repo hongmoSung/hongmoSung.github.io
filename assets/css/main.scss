@@ -5,6 +5,8 @@ search: false
 
 @charset "utf-8";
 
+/* Cache busting version: {{ site.version }} */
+
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 @import "minimal-mistakes/custom"; // custom styles
