@@ -39,3 +39,50 @@ mark {
   background-color: #664d03;
   color: #fff3cd;
 }
+
+/* 코드 블록 모바일 최적화 */
+div.highlighter-rouge,
+figure.highlight {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* iOS에서 부드러운 스크롤 */
+}
+
+.highlight table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+
+  td {
+    white-space: nowrap;
+
+    &.code,
+    &.rouge-code {
+      width: 100%;
+    }
+  }
+
+  pre {
+    overflow-x: visible;
+    white-space: pre;
+  }
+}
+
+/* 모바일에서 코드 블록 폰트 크기 조정 */
+@media (max-width: 768px) {
+  div.highlighter-rouge,
+  figure.highlight {
+    font-size: 0.75em; /* 모바일에서 폰트 크기 약간 축소 */
+  }
+
+  .highlight table td {
+    &.gutter,
+    &.rouge-gutter {
+      padding-right: 0.5em; /* 모바일에서 라인 넘버 패딩 축소 */
+    }
+
+    &.code,
+    &.rouge-code {
+      padding-left: 0.5em; /* 모바일에서 코드 영역 패딩 축소 */
+    }
+  }
+}
