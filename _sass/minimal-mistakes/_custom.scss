@@ -41,22 +41,14 @@ mark {
   color: #24292e !important;           /* 기본 텍스트 색상 (검은색 계열) */
 }
 
-/* 모바일에서 코드 블록 폰트 크기 조정 */
-@media (max-width: 768px) {
-  div.highlighter-rouge,
-  figure.highlight {
-    font-size: 0.75em; /* 모바일에서 폰트 크기 약간 축소 */
-  }
+/* 줄 번호(Gutter) 영역 배경색 및 경계선 수정 */
+.rouge-table td.rouge-gutter {
+  background-color: #f1f3f5 !important;
+  border-right: 1px solid #e1e4e8 !important;
+  color: #adb5bd !important;
+}
 
-  .highlight table td {
-    &.gutter,
-    &.rouge-gutter {
-      padding-right: 0.5em; /* 모바일에서 라인 넘버 패딩 축소 */
-    }
-
-    &.code,
-    &.rouge-code {
-      padding-left: 0.5em; /* 모바일에서 코드 영역 패딩 축소 */
-    }
-  }
+/* 실제 코드 영역 배경색 */
+.rouge-table td.rouge-code {
+  background-color: #f6f8fa !important;
 }
