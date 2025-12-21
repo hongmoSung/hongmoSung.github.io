@@ -34,37 +34,11 @@ mark {
   font-weight: 500;
 }
 
-/* 다크모드에서 하이라이트 스타일 */
-[data-theme="dark"] mark {
-  background-color: #664d03;
-  color: #fff3cd;
-}
-
-/* 코드 블록 모바일 최적화 */
-div.highlighter-rouge,
-figure.highlight {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* iOS에서 부드러운 스크롤 */
-}
-
-.highlight table {
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
-
-  td {
-    white-space: nowrap;
-
-    &.code,
-    &.rouge-code {
-      width: 100%;
-    }
-  }
-
-  pre {
-    overflow-x: visible;
-    white-space: pre;
-  }
+/* 코드 블록 전체 배경색 및 텍스트 색상 강제 */
+.page__content .highlighter-rouge,
+.page__content .highlight {
+  background-color: #f6f8fa !important; /* GitHub 스타일 연한 회색/흰색 */
+  color: #24292e !important;           /* 기본 텍스트 색상 (검은색 계열) */
 }
 
 /* 모바일에서 코드 블록 폰트 크기 조정 */
