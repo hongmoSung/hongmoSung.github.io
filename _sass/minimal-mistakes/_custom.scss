@@ -52,3 +52,12 @@ mark {
 .rouge-table td.rouge-code {
   background-color: #f6f8fa !important;
 }
+
+/* 코드 블록 내의 주석(comment)에서 ::after clearfix 스타일 제거 */
+.highlight .comment::after,
+.highlighter-rouge .comment::after,
+.rouge-code .comment::after {
+  content: none !important;
+  display: inline !important;
+  clear: none !important;
+}
