@@ -33,31 +33,3 @@ mark {
   border-radius: 3px;
   font-weight: 500;
 }
-
-/* 코드 블록 전체 배경색 및 텍스트 색상 강제 */
-.page__content .highlighter-rouge,
-.page__content .highlight {
-  background-color: #f6f8fa !important; /* GitHub 스타일 연한 회색/흰색 */
-  color: #24292e !important;           /* 기본 텍스트 색상 (검은색 계열) */
-}
-
-/* 줄 번호(Gutter) 영역 배경색 및 경계선 수정 */
-.rouge-table td.rouge-gutter {
-  background-color: #f1f3f5 !important;
-  border-right: 1px solid #e1e4e8 !important;
-  color: #adb5bd !important;
-}
-
-/* 실제 코드 영역 배경색 */
-.rouge-table td.rouge-code {
-  background-color: #f6f8fa !important;
-}
-
-/* 코드 블록 내의 주석(comment)에서 ::after clearfix 스타일 제거 */
-.highlight .comment::after,
-.highlighter-rouge .comment::after,
-.rouge-code .comment::after {
-  content: none !important;
-  display: inline !important;
-  clear: none !important;
-}
