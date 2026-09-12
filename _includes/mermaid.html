@@ -1,4 +1,11 @@
-{% if page.mermaid or site.mermaid %}
+{%- comment -%}
+mermaid.min.js 는 2.9MB 다. site.mermaid: true 로 전역 활성화하면 다이어그램이
+하나도 없는 페이지까지 전부 받아가므로, 실제로 mermaid 코드블록이 렌더된
+페이지에서만 로드한다. kramdown 은 ```mermaid 을
+<pre><code class="language-mermaid"> 로 내보낸다 (Rouge 에 mermaid lexer 가 없어
+하이라이팅 없이 통과). page.mermaid: true 로 강제할 수도 있다.
+{%- endcomment -%}
+{% if page.mermaid or content contains "language-mermaid" %}
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
