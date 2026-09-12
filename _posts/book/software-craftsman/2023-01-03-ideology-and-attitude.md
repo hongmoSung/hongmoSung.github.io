@@ -65,4 +65,4 @@ toc: true
 이어지는 장들에서 이러한 질문들에 대한 생각들을 풀어 놓을 것이다.
 
 ## 참조
-- [소프트웨어 장인](http://www.yes24.com/Product/Goods/20461940)
+- [소프트웨어 장인](https://www.yes24.com/Product/Goods/20461940)

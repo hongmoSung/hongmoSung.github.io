@@ -158,4 +158,4 @@ TDD 에 능숙한 개발자는 개발 초기부터 디자인 패턴을 적용하
 
 ## 참조
 
-- [소프트웨어 장인](http://www.yes24.com/Product/Goods/20461940)
+- [소프트웨어 장인](https://www.yes24.com/Product/Goods/20461940)

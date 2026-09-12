@@ -81,4 +81,4 @@ toc: true
 소프트웨어 장인정신은, 항상 최선을 다하고 고객에게 좋은 서비스를 제공하려는 개발자에 관한 이야기다.
 
 ## 참조
-- [소프트웨어 장인](http://www.yes24.com/Product/Goods/20461940)
+- [소프트웨어 장인](https://www.yes24.com/Product/Goods/20461940)

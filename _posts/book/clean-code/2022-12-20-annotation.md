@@ -44,4 +44,4 @@ if((employee.flags&HOURLY_FLAG&&employee.age>65))
 
 ## 참조
 
-- [클린코드](http://www.yes24.com/Product/Goods/11681152)
+- [클린코드](https://www.yes24.com/Product/Goods/11681152)

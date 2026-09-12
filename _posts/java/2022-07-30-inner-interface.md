@@ -53,4 +53,4 @@ public class Test {
 익명 이너 클래스를 활용해 객체를 생성해야 한다.  
 
 ## 참조
-[Do it! 자바 완전 정복](http://www.yes24.com/Product/Goods/103389317)
+[Do it! 자바 완전 정복](https://www.yes24.com/Product/Goods/103389317)

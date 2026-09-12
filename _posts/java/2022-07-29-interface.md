@@ -62,4 +62,4 @@ public class Test {
 
 ## 참조
 
-[Do it! 자바 완전 정복](http://www.yes24.com/Product/Goods/103389317)
+[Do it! 자바 완전 정복](https://www.yes24.com/Product/Goods/103389317)

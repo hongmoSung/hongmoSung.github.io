@@ -118,4 +118,4 @@ for(int j=0; j < NUMBER_OF_TASKS; j++) {
 
 ## 참조
 
-- [클린코드](http://www.yes24.com/Product/Goods/11681152)
+- [클린코드](https://www.yes24.com/Product/Goods/11681152)

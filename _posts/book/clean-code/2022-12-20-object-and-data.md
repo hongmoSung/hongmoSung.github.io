@@ -70,4 +70,4 @@ public interface Point {
 우수한 소프트웨어 개발자는 편견 없이 이 사실을 이해해 직면한 문제에 최적인 해결책을 선택한다. 
 
 ## 참조
-- [클린코드](http://www.yes24.com/Product/Goods/11681152)
+- [클린코드](https://www.yes24.com/Product/Goods/11681152)

@@ -186,4 +186,4 @@ TDD 에 의해서 주어지는 피드백은 정규적인 설계 리뷰 미팅보
 
 ## 참조
 
-- [소프트웨어 장인](http://www.yes24.com/Product/Goods/20461940)
+- [소프트웨어 장인](https://www.yes24.com/Product/Goods/20461940)
