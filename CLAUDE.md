@@ -112,7 +112,12 @@ Two methods:
 2. `<mark>텍스트</mark>` — direct HTML
 
 ### Mermaid Diagrams
-Enabled via `mermaid: true` in `_config.yml`. Use standard Mermaid syntax in code blocks.
+Write a ```` ```mermaid ```` fenced block; nothing else is needed. `_includes/mermaid.html` loads the library
+only when the rendered page actually contains one (`content contains "language-mermaid"`), because
+`mermaid.min.js` is **2.9MB** and the old `mermaid: true` site-wide flag was shipping it to all 120 pages when
+only 21 have a diagram. `page.mermaid: true` still forces it on for a page that builds a diagram some other way.
+Rouge has no mermaid lexer, so kramdown emits the block untouched as `<pre><code class="language-mermaid">`,
+which is exactly what the include's script looks for.
 
 ### Search
 `search: true` in `_config.yml` turns on the theme's bundled **lunr** index (`search_provider` is left blank,
@@ -153,9 +158,17 @@ holds one file:
 - **Image paths in posts must be root-absolute** (`/assets/images/...`). Several older posts use raw
   `<img src="../../../assets/...">`, which only works because `normpath` clamps at the root; one post used
   `assets/...` with no `../` and 404'd on the live site for years (fixed in b79d57f9)
+- `exclude` also hides three theme assets that were being published but never loaded:
+  `assets/js/main.min.js.map` (204KB, and it lists the very JS sources `exclude` exists to hide),
+  `assets/js/lunr/lunr.js` (the unminified copy — pages load `lunr.min.js`) and `assets/js/lunr/lunr-gr.js`
+  (Greek stemmer; `lunr-search-scripts.html` picks `en` for any non-`gr` locale). They stay in the repo so the
+  theme-upgrade diff keeps applying
 - `_config.yml` carries only settings this site actually uses. The theme's full menu of comment providers,
   search providers and `pagination:` keys was removed in 739957d9 — take them from upstream's `_config.yml`
   if you ever need one
-- The repo is cloned with `core.autocrlf = input`, so **git stores LF** no matter what the working tree holds.
-  Several working-tree files are CRLF; that difference never reaches a commit, but it does break naive
-  `split("\r\n")` scripting against a file with mixed endings
+- **Keep the working tree LF.** Every blob in this repo is LF. If an editor rewrites a file as CRLF, two
+  things go wrong: `git status` reports it modified even though nothing changed, and — worse —
+  `excerpt_separator: "\n\n"` stops matching, so `page.excerpt` becomes the *entire post*. That silently turns
+  every `<meta name="description">` into the whole article in local builds while CI (which checks out LF) is
+  fine, so a local production build no longer reproduces the deployed site. `git checkout -- <file>` restores
+  LF
