@@ -200,8 +200,14 @@ kramdown:
 sass:
   sass_dir: _sass
   style: compressed # https://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
+  # vendoring 된 Susy/breakpoint 가 Dart Sass 에서 deprecated 된 '/' 나눗셈과 @import 를 쓴다.
+  # 업스트림 테마(4.28.x)도 동일해서 우리 쪽에서 고칠 수 있는 문제가 아니므로 로그만 잠재운다.
+  sourcemap: never                  # 프로덕션에 .map 과 SCSS 원본 경로를 노출하지 않는다
+  quiet_deps: true                  # _sass/ 하위 의존 파일에서 나던 경고 231건
+  silence_deprecations: ["import"]  # assets/css/main.scss 의 @import 경고
 
 # Outputting
+future: true # github-pages gem 이 강제하던 값. Jekyll 4 기본값(false)이면 미래 날짜 글이 조용히 누락된다
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
