@@ -1,7 +1,7 @@
 ---
 title: "Java 다형성"
-date: 2024-12-28
-last_modified_at: 2024-12-28
+date: 2025-12-28
+last_modified_at: 2025-12-28
 categories:
   - java
 tags:
