@@ -1,23 +1,13 @@
 source "https://rubygems.org"
 
-# GitHub Pages에서 사용하는 의존성과 버전을 맞추기 위해
+# GitHub Pages 가 서버에서 쓰는 젬 조합을 로컬에서 그대로 재현하기 위한 메타 젬.
+# jekyll, kramdown, rouge, jekyll-paginate/sitemap/gist/feed/include-cache 등
+# _config.yml 의 plugins 에 나열된 것들은 전부 이 젬이 버전까지 고정해 끌고 온다.
 gem "github-pages", group: :jekyll_plugins
-gem "webrick" # 로컬 호스팅을 위한 필요 Gem
-gem "faraday-retry"
-gem "openssl", "~> 3.1", ">= 3.1.2"
-gem "minimal-mistakes-jekyll"
 
-group :jekyll_plugins do
-  gem "jekyll-paginate"
-  gem "jekyll-sitemap"
-  gem "jekyll-gist"
-  gem "jekyll-feed"
-  gem "jekyll-include-cache"
-  gem "jekyll-remote-theme"
-end
+gem "webrick"        # Ruby 3+ 에서 jekyll serve 에 필요
+gem "faraday-retry"  # jekyll-github-metadata 의 octokit 경고 억제
 
-# Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
+# Windows/JRuby 전용 (macOS 에서는 설치되지 않음)
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-# Performance-booster for watching directories on Windows
 gem "wdm", "~> 0.1.1", platforms: [:mingw, :mswin, :x64_mingw, :jruby]

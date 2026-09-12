@@ -6,12 +6,11 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Theme Settings
-#
-# Review documentation to determine if you should use `theme` or `remote_theme`
-# https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
-#theme                  : "minimal-mistakes-jekyll"
-remote_theme           : "mmistakes/minimal-mistakes"  # GitHub Pages에서 자동으로 사용됨
+# 테마는 이 리포에 vendoring 되어 있다 (_includes, _layouts, _sass, assets = Minimal Mistakes 4.26.2).
+# Jekyll 은 로컬 파일을 테마 파일보다 우선하므로 theme/remote_theme 선언은 불필요하며,
+# 선언해도 로컬 파일에 전부 가려진다. 업그레이드는 upstream(mmistakes/minimal-mistakes) 과 수동 diff.
+theme                     :  # 명시적으로 비워 github-pages gem 의 jekyll-theme-primer 폴백을 차단
 minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
@@ -24,7 +23,7 @@ subtitle                 : # site tagline that appears below site title in masth
 name                     : "올챙이"
 description              : "Dev log website."
 url                      : "https://hongmoSung.github.io"
-baseurl                  : "/"
+baseurl                  : "" # "/" 로 두면 jekyll-github-metadata 가 덮어씀 (site_github_munger.rb:81)
 repository               : "hongmoSung/hongmoSung.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
@@ -88,10 +87,10 @@ google:
   instant_search         : # false (default), true
 # SEO Related
 google_site_verification: "LhOEfCdRnRRVDjO2mrZSP8xLHmw8U4G2LVQARwbsRMs"
-bing_site_verification: "YOUR_BING_VERIFICATION_CODE"
-naver_site_verification: "YOUR_NAVER_VERIFICATION_CODE"
-yandex_site_verification: "YOUR_YANDEX_VERIFICATION_CODE"
-baidu_site_verification: "YOUR_BAIDU_VERIFICATION_CODE"
+bing_site_verification:
+naver_site_verification:
+yandex_site_verification:
+baidu_site_verification:
 
 # Social Sharing
 twitter:
@@ -141,6 +140,7 @@ include:
   - .htaccess
   - _pages
 exclude:
+  - CLAUDE.md
   - "*.sublime-project"
   - "*.sublime-workspace"
   - vendor
@@ -232,14 +232,6 @@ pagination:
 
 # Plugins (previously gems:)
 plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
-  - jekyll-include-cache
-
-# mimic GitHub Pages with --safe
-whitelist:
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-gist
