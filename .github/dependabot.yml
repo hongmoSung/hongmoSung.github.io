@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # pages.yml 의 액션 버전이 다시 방치되지 않도록 감시한다
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "Chore"
+
+  # Gemfile.lock 이 커밋되어 있으므로 젬 업데이트도 PR 로 받는다
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "Chore"
+    open-pull-requests-limit: 5
