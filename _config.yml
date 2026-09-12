@@ -7,7 +7,7 @@
 
 # Theme Settings
 
-# 테마는 이 리포에 vendoring 되어 있다 (_includes, _layouts, _sass, assets = Minimal Mistakes 4.26.2).
+# 테마는 이 리포에 vendoring 되어 있다 (_includes, _layouts, _sass, assets = Minimal Mistakes 4.28.1).
 # Jekyll 은 로컬 파일을 테마 파일보다 우선하므로 theme/remote_theme 선언은 불필요하며,
 # 선언해도 로컬 파일에 전부 가려진다. 업그레이드는 upstream(mmistakes/minimal-mistakes) 과 수동 diff.
 theme                     :  # 명시적으로 비워 github-pages gem 의 jekyll-theme-primer 폴백을 차단
