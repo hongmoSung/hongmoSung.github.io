@@ -72,7 +72,7 @@ reCaptcha:
 atom_feed:
   path                   : # blank (default) uses feed.xml
   hide                   : # true, false (default)
-search                   : # true, false (default)
+search                   : true # lunr (테마에 vendoring 됨). 한국어 형태소 분석은 못 해서 부분일치 위주
 search_full_content      : # true, false (default)
 search_provider          : # lunr (default), algolia, google
 lunr:
