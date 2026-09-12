@@ -120,6 +120,17 @@ and lunr is the default). The index is built at `assets/js/lunr/lunr-store.js` f
 front matter — set `search_full_content: true` to index body text too, at the cost of a much larger payload.
 lunr has no Korean stemmer, so the theme loads `lunr-en.js` and matching is effectively substring-based.
 
+### Custom Plugins
+`_plugins/` works **only because the site builds on Actions** — the classic Pages build ignores it. Today it
+holds one file:
+
+- `lazy_images.rb` — a `:post_convert` hook that adds `loading="lazy" decoding="async"` to `<img>` in the
+  document body. Jekyll 4.4's `renderer.rb` re-reads `document.content` immediately after this hook, which is
+  what makes the edit survive into the layout. It is scoped to `output_ext == ".html"` on purpose: the theme's
+  `assets/js/lunr/lunr-*.js` carry front matter, so Jekyll treats them as pages, and they build an `<img>` tag
+  inside a string literal — without the guard the hook rewrites that JavaScript. The sidebar avatar comes from
+  the layout rather than the body, so it correctly stays eager.
+
 ### 404 Page
 `_pages/404.md` renders to `/404.html`, which GitHub Pages serves for any unmatched path. It carries
 `sitemap: false` so `jekyll-sitemap` skips it. Without this file visitors get GitHub's unstyled
@@ -139,3 +150,12 @@ lunr has no Korean stemmer, so the theme loads `lunr-en.js` and matching is effe
 - `jekyll-gist` was removed (no post used `{% gist %}`); it was the only thing pulling in `octokit 4.x`,
   which emitted a `faraday-retry` warning on every build. Re-add the gem if you ever need the tag
 - `CLAUDE.md` is in `_config.yml`'s `exclude` — without it, Jekyll publishes this file at `/CLAUDE/`
+- **Image paths in posts must be root-absolute** (`/assets/images/...`). Several older posts use raw
+  `<img src="../../../assets/...">`, which only works because `normpath` clamps at the root; one post used
+  `assets/...` with no `../` and 404'd on the live site for years (fixed in b79d57f9)
+- `_config.yml` carries only settings this site actually uses. The theme's full menu of comment providers,
+  search providers and `pagination:` keys was removed in 739957d9 — take them from upstream's `_config.yml`
+  if you ever need one
+- The repo is cloned with `core.autocrlf = input`, so **git stores LF** no matter what the working tree holds.
+  Several working-tree files are CRLF; that difference never reaches a commit, but it does break naive
+  `split("\r\n")` scripting against a file with mixed endings
