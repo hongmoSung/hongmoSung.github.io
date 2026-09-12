@@ -109,6 +109,10 @@ exclude:
   - assets/js/vendor
   - LICENSE
   - README
+  # 배포되지만 아무도 로드하지 않는 테마 자산 (리포에는 남겨둬야 테마 업그레이드 diff 가 깨지지 않는다)
+  - assets/js/main.min.js.map      # 204K. main.min.js 에 sourceMappingURL 도 없고, exclude 로 감춘 원본 8개를 그대로 나열한다
+  - assets/js/lunr/lunr.js         # 104K 비압축본. 페이지는 lunr.min.js 만 로드
+  - assets/js/lunr/lunr-gr.js      # 그리스어 스테머. locale 이 ko-KR 이라 항상 lunr-en.js 가 선택된다
 keep_files:
   - .git
   - .svn
