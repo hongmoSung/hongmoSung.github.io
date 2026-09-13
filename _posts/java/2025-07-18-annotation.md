@@ -199,9 +199,17 @@ public class MyClass {
 ```java
 @Documented    // Javadoc에 포함
 @Inherited     // 하위 클래스에 상속
-@Repeatable    // 동일 요소에 여러 번 적용 가능
+@Repeatable(Roles.class)    // 동일 요소에 여러 번 적용 가능 (컨테이너 애노테이션 지정 필수)
 public @interface Role {
     String value();
+}
+
+// @Repeatable 의 컨테이너 애노테이션
+// Role 에 @Documented, @Inherited 가 있으면 컨테이너에도 붙여야 컴파일된다
+@Documented
+@Inherited
+public @interface Roles {
+    Role[] value();
 }
 
 // @Repeatable 사용 예시
@@ -622,14 +630,17 @@ graph TD
 
 ```java
 public class AnnotationCache {
-    private static final Map<Class<?>, List<Method>> ANNOTATED_METHODS = 
+    // 캐시 키에 애노테이션 타입까지 포함해야 다른 애노테이션으로 조회할 때 잘못된 결과가 나오지 않는다
+    private record CacheKey(Class<?> clazz, Class<? extends Annotation> annotation) { }
+
+    private static final Map<CacheKey, List<Method>> ANNOTATED_METHODS = 
         new ConcurrentHashMap<>();
     
     public static List<Method> getAnnotatedMethods(Class<?> clazz, 
                                                   Class<? extends Annotation> annotation) {
-        return ANNOTATED_METHODS.computeIfAbsent(clazz, key -> 
-            Arrays.stream(key.getDeclaredMethods())
-                  .filter(method -> method.isAnnotationPresent(annotation))
+        return ANNOTATED_METHODS.computeIfAbsent(new CacheKey(clazz, annotation), key -> 
+            Arrays.stream(key.clazz().getDeclaredMethods())
+                  .filter(method -> method.isAnnotationPresent(key.annotation()))
                   .collect(Collectors.toList())
         );
     }

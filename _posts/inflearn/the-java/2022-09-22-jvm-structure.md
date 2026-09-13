@@ -20,7 +20,7 @@ toc: true
 - 힙 영역에는 객체를 저장. 공유 자원이다. (인스턴스?)
 - 스택 영역에는 쓰레드 마다 런타임 스택을 만들고, 그 안에 메소드 호출을 스택 프레임이라 부르는 블럭으로 쌓는다.
   쓰레드를 종료하면 런타임 스택도 사라진다.
-- PC(Program Counter) 레지스터: 쓰레드 마다 쓰레드 내 현재 실행할 스택 프레임을 가리키는 포인터가 생성된다.
+- PC(Program Counter) 레지스터: 쓰레드 마다 생성되며, 쓰레드가 현재 실행 중인 JVM 명령어(바이트코드)의 주소를 가리킨다. (네이티브 메소드를 실행 중일 때는 값이 정의되지 않는다.)
 - 네이티브 메소드 스택
 - https://javapapers.com/core-java/java-jvm-run-time-data-areas/#Program_Counter_PC_
   Register

@@ -58,7 +58,7 @@ MyService service = new MyService(); // 생성자 호출
 
 - **언제**: 가장 첫 번째 단계
 - **무엇을**: 메모리에 객체 인스턴스 생성
-- **특징**: 아직 의존성이 주입되지 않은 상태
+- **특징**: 필드·세터 주입 대상은 아직 주입되지 않은 상태 (생성자 주입이라면 의존성이 생성자 인자로 이미 들어와 있어 생성자 안에서도 사용 가능)
 
 ### 2단계: 의존성 주입 (Dependency Injection) 🔌
 
@@ -124,7 +124,7 @@ sequenceDiagram
     
     Note over C,D: 인스턴스화 단계
     C->>B: new Bean() - 생성자 호출
-    Note right of B: 의존성 아직 없음
+    Note right of B: 필드/세터 주입 의존성 아직 없음
     
     Note over C,D: 의존성 주입 단계
     C->>D: 의존성 해결
@@ -203,7 +203,7 @@ public class RestaurantService implements InitializingBean, DisposableBean {
 
 | 순서 | 단계 | 코드 예시 | 의존성 사용 | 주의사항 |
 |------|------|-----------|-------------|----------|
-| 1 | 생성자 | `new Bean()` | ❌ | 의존성 사용 금지 |
+| 1 | 생성자 | `new Bean()` | ❌ (생성자 주입이면 ✅) | 필드·세터 주입 의존성 사용 금지 |
 | 2 | 의존성 주입 | `@Autowired` | ❌ | 스프링이 자동 처리 |
 | 3 | @PostConstruct | `@PostConstruct` | ✅ | **권장 방식** |
 | 4 | InitializingBean | `afterPropertiesSet()` | ✅ | 스프링 종속 |
@@ -302,5 +302,5 @@ class BeanLifecycleTest {
 
 ## 결론
 
-스프링 빈 생명주기의 핵심은 "생성자에서는 의존성 사용 금지, @PostConstruct부터 안전하게 사용 가능"입니다.
+스프링 빈 생명주기의 핵심은 "필드·세터 주입 의존성은 생성자에서 사용 금지, @PostConstruct부터 안전하게 사용 가능"입니다. (생성자 주입이라면 생성자 안에서 바로 사용할 수 있습니다.)
 @PostConstruct로 초기화, @PreDestroy로 자원 정리만 확실히 알면 실무의 80% 문제를 해결할 수 있습니다.

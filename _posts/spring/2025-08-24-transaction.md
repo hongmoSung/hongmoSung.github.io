@@ -302,7 +302,7 @@ public class OrderService {
         productRepository.save(product);
         
         // ❌ 여기서 예외 발생하면?
-        // → 주문은 생성되었지만 재고는 차감되지 않음!
+        // → 주문 생성과 재고 차감이 이미 DB에 반영된 채로 남음! (롤백되지 않음)
         if (someBusinessLogic()) {
             throw new RuntimeException("비즈니스 로직 오류!");
         }
@@ -914,7 +914,15 @@ graph TB
 
 이것이 가장 헷갈리는 부분입니다!
 
+> 이 예제의 `PaymentFailedException`은 `RuntimeException`을 상속합니다. 5.3의 checked `PaymentException`처럼 기본 롤백 규칙에 해당하지 않는 예외라면 rollback-only로 마킹되지 않습니다.
+
 ```java
+public class PaymentFailedException extends RuntimeException {
+    public PaymentFailedException(String message) {
+        super(message);
+    }
+}
+
 @Service
 public class OrderService {
     
@@ -930,7 +938,7 @@ public class OrderService {
             // 2. 결제 처리 (실패!)
             paymentService.processPayment(order.getId(), request.getAmount());
             
-        } catch (PaymentException e) {
+        } catch (PaymentFailedException e) {
             // 예외를 잡아서 처리했으니 괜찮을까? ❌
             log.error("결제 실패했지만 주문은 유지하자", e);
         }
@@ -946,7 +954,7 @@ public class PaymentService {
     public void processPayment(Long orderId, BigDecimal amount) {
         // 결제 검증 실패
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new PaymentException("결제 금액이 잘못되었습니다");
+            throw new PaymentFailedException("결제 금액이 잘못되었습니다");
         }
         
         // 결제 처리...
@@ -970,7 +978,7 @@ sequenceDiagram
     OrderService->>PaymentService: 결제 처리 호출
     PaymentService->>PaymentService: 결제 검증 실패
     PaymentService-->>TxManager: 트랜잭션을 rollback-only로 마킹
-    PaymentService-->>OrderService: PaymentException 발생
+    PaymentService-->>OrderService: PaymentFailedException 발생
     OrderService->>OrderService: 예외 캐치 (정상 처리)
     OrderService->>TxManager: 커밋 시도
     TxManager-->>OrderService: ❌ UnexpectedRollbackException
@@ -978,7 +986,7 @@ sequenceDiagram
     Note over TxManager: 이미 rollback-only로 마킹되어<br/>커밋할 수 없음!
 ```
 
-**핵심 포인트**: 내부 트랜잭션에서 예외가 발생하면, 물리 트랜잭션이 "rollback-only"로 마킹됩니다. 이후 외부에서 커밋을 시도해도 `UnexpectedRollbackException`이 발생합니다.
+**핵심 포인트**: 내부 트랜잭션에서 롤백 대상 예외(기본: RuntimeException, Error)가 프록시 밖으로 던져지면, 물리 트랜잭션이 "rollback-only"로 마킹됩니다. 이후 외부에서 커밋을 시도해도 `UnexpectedRollbackException`이 발생합니다.
 
 ### 7.4 REQUIRES_NEW로 트랜잭션 분리하기
 
@@ -993,17 +1001,17 @@ public class OrderService {
     
     @Transactional
     public void processOrder(OrderRequest request) {
+        // 1. 주문 생성 (성공)
+        Order order = createOrder(request);
+        
         try {
-            // 1. 주문 생성 (성공)
-            Order order = createOrder(request);
-            
             // 2. 결제 처리 (독립적인 트랜잭션)
             paymentService.processPaymentSeparately(order.getId(), request.getAmount());
             
-        } catch (PaymentException e) {
+        } catch (PaymentFailedException e) {
             // 이제 결제 실패해도 주문은 유지됨 ✅
             log.error("결제 실패, 주문 상태를 대기로 변경", e);
-            updateOrderStatus(orderId, OrderStatus.PAYMENT_PENDING);
+            updateOrderStatus(order.getId(), OrderStatus.PAYMENT_PENDING);
         }
     }
 }
@@ -1014,7 +1022,7 @@ public class PaymentService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void processPaymentSeparately(Long orderId, BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new PaymentException("결제 금액이 잘못되었습니다");
+            throw new PaymentFailedException("결제 금액이 잘못되었습니다");
         }
         
         // 결제 처리...

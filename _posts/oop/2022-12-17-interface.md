@@ -42,19 +42,20 @@ class ACMEBicycle implements Bicycle {
     // all be implemented. Compilation will fail if those
     // methods are missing from this class.
 
-    void changeCadence(int newValue) {
+    // 인터페이스 메서드는 암묵적으로 public 이므로 구현할 때도 public 이어야 한다.
+    public void changeCadence(int newValue) {
         cadence = newValue;
     }
 
-    void changeGear(int newValue) {
+    public void changeGear(int newValue) {
         gear = newValue;
     }
 
-    void speedUp(int increment) {
+    public void speedUp(int increment) {
         speed = speed + increment;
     }
 
-    void applyBrakes(int decrement) {
+    public void applyBrakes(int decrement) {
         speed = speed - decrement;
     }
 

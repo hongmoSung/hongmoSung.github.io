@@ -52,7 +52,8 @@ class Test {
     }
 
     public static void main(String[] args) {
-        A a = new A();
+        Test t = new Test();   // 아우터 클래스 객체를 먼저 생성
+        A a = t.new A();       // static 메서드 안이라 new A() 만 쓰면 컴파일 에러
         A.B b = a.new B();
     }
 }

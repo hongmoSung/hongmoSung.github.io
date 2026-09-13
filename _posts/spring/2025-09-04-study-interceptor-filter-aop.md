@@ -301,7 +301,7 @@ curl -H "Authorization: Bearer token123" http://localhost:8080/users/456
 | **작동 레벨** | 서블릿 컨테이너 | Spring MVC | 메서드 호출 |
 | **적용 범위** | 모든 요청 | MVC 요청만 | 특정 메서드 |
 | **주요 용도** | 보안, 인코딩, 압축 | 인증, 권한, 로깅 | 트랜잭션, 성능 측정 |
-| **Spring 컨텍스트** | 접근 불가 | 접근 가능 | 접근 가능 |
+| **Spring 컨텍스트** | 빈으로 등록하면 DI 가능 (`@Component`, `DelegatingFilterProxy`) | 접근 가능 | 접근 가능 |
 
 ### 활용 팁
 

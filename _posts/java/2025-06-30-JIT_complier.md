@@ -52,8 +52,9 @@ JIT 컴파일러를 이해하기 위해서는 먼저 컴파일러와 인터프�
 1000번 반복되는 동일한 연산의 경우:
 
 **JIT 컴파일러 방식**
-- 첫 번째 실행: 바이트코드 → 네이티브 코드 변환 후 메모리 저장
-- 나머지 999번: 저장된 최적화된 네이티브 코드 재사용
+- 처음 몇백 번: 인터프리터로 실행하면서 호출 횟수와 프로파일 정보 수집
+- 임계치 도달: 바이트코드 → 네이티브 코드 변환 후 Code Cache에 저장
+- 나머지 실행: 저장된 최적화된 네이티브 코드 재사용
 
 **인터프리터 방식**
 - 1000번 모두: 매번 바이트코드 해석 과정 반복
@@ -103,7 +104,7 @@ graph TB
     %% Execution Flow
     E --> F
     F --> |Hot Spot Detection| G
-    G --> |Optimized Code| J
+    G --> |Optimized Code| CC[Code Cache<br>Native Code]
     F --> |Direct Execution| J
     
     %% Memory Management
@@ -169,11 +170,12 @@ graph TB
     A -.-> B
     A -.-> C
     
-    %% 실행 흐름
-    D --> |호출 횟수 증가| E
-    E --> |더 많은 호출| F
-    F --> |Hot Spot 감지| G
+    %% 실행 흐름 (일반 경로: 0 → 3 → 4)
+    D --> |Hot Spot 감지| G
     G --> |충분한 프로파일 정보| H
+    D -.-> |단순한 메서드이거나 C2 사용 불가| E
+    D -.-> |C2 컴파일 큐가 붐빌 때| F
+    F -.-> G
     
     %% 컴파일러 매핑
     B --> E
@@ -216,13 +218,16 @@ HotSpot 감지는 카운터 기반 시스템을 사용합니다:
 
 **Method Invocation Counter**
 - 메소드 호출 횟수 추적
-- C1 컴파일 임계치: 1,500회
-- C2 컴파일 임계치: 10,000회
+- Level 3(C1) 컴파일 임계치: 호출 약 200회 (`Tier3InvocationThreshold`), 호출+루프 합산 2,000회 (`Tier3CompileThreshold`)
+- Level 4(C2) 컴파일 임계치: 호출 약 5,000회 (`Tier4InvocationThreshold`), 호출+루프 합산 15,000회 (`Tier4CompileThreshold`)
 
 **Backward Branch Counter**
-- 루프 실행 횟수 추적
-- C1 컴파일 임계치: 13,995회
-- C2 컴파일 임계치: 140,000회
+- 루프 실행 횟수 추적. 임계치를 넘으면 실행 중인 루프를 OSR(On-Stack Replacement)로 컴파일
+- Level 3(C1) OSR 임계치: 60,000회 (`Tier3BackEdgeThreshold`)
+- Level 4(C2) OSR 임계치: 40,000회 (`Tier4BackEdgeThreshold`)
+
+> 위 값은 Java 8부터 기본인 Tiered Compilation 기준이며, 실제로는 컴파일 큐 길이 등에 따라 동적으로 조정된다.
+> 흔히 보이는 1,500회(C1) / 10,000회(C2)는 Tiered 이전 client / server VM의 `CompileThreshold` 기본값이다.
 
 ### 실제 동작 예시
 
@@ -230,7 +235,7 @@ HotSpot 감지는 카운터 기반 시스템을 사용합니다:
 public class HotSpotExample {
     public static void main(String[] args) {
         for (int i = 0; i < 100000; i++) {
-            calculate(i);  // 1500번째 호출부터 C1 최적화 시작
+            calculate(i);  // 호출 횟수가 임계치를 넘으면 C1 → C2 순서로 컴파일 (main 루프 자체가 OSR 컴파일되며 인라인될 수도 있음)
         }
     }
     
@@ -347,7 +352,7 @@ public int heavyCalculation(int n) {
     return n * n + 2 * n + 1;
 }
 
-// 1500번 호출 후 JIT 컴파일 발생
+// 호출 횟수가 임계치(Tiered 기본 C1 약 200회, C2 약 5,000회)를 넘으면 JIT 컴파일 발생
 // 바이트코드 → 최적화된 기계어 → Code Cache에 저장
 // 다음 호출부터는 Code Cache의 기계어 직접 실행
 ```

@@ -17,12 +17,13 @@ interface C {
     void bcd();
 }
 ```
+비교를 위해 먼저 이름이 있는 인스턴스 이너 클래스로 구현하면 다음과 같다.
 ```java
 class A1 {
     C b = new B();
-    // 인스턴스 이너 클래스
+    // 인스턴스 이너 클래스 (이름이 B 로 있으므로 익명 클래스가 아니다)
     class B implements C {
-        void bcd() {
+        public void bcd() { // 인터페이스 메서드는 암묵적으로 public 이므로 public 필수
         }
     }
 
@@ -31,17 +32,30 @@ class A1 {
     }
 }
 ```
-메서드 내부에서 사용했을 때는 **지역 익명 이너 클래스**를 의미한다.
+같은 내용을 클래스의 중괄호 바로 아래에서 익명 이너 클래스로 작성하면 **인스턴스 익명 이너 클래스**가 된다.
 ```java
 class A2 {
     // C를 상속받아 bcd() 메서드를 오버라이딩한 익명 이너 클래스의 객체
     C b = new C() {
-        void bcd() {
+        public void bcd() {
         }
     };
     
     void abc() {
         // ...
+    }
+}
+```
+메서드 내부에서 사용했을 때는 **지역 익명 이너 클래스**를 의미한다.
+```java
+class A3 {
+    void abc() {
+        // 메서드 내부에서 C를 상속받아 bcd() 메서드를 오버라이딩한 익명 이너 클래스의 객체
+        C c = new C() {
+            public void bcd() {
+            }
+        };
+        c.bcd();
     }
 }
 ```

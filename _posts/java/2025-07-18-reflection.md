@@ -21,7 +21,7 @@ mermaid: true
 
 ### 핵심 API 구성요소
 
-`java.lang.reflect` 패키지의 핵심 클래스들은 각각 명확한 책임을 가지고 설계되었습니다:
+리플렉션의 핵심 클래스들은 각각 명확한 책임을 가지고 설계되었습니다 (`Class`는 `java.lang`, 나머지는 `java.lang.reflect` 패키지):
 
 - **Class**: 모든 리플렉션 작업의 진입점이자 타입 메타데이터의 컨테이너
 - **Constructor**: 동적 객체 생성을 위한 인터페이스
@@ -135,7 +135,7 @@ sequenceDiagram
 #### 초기화(Initialization)
 정적 변수에 실제 값을 할당하고 정적 블록을 실행합니다.
 
-## 리플렉션의 내부 동작 메커니즘: JNI와 네이티브 통합
+## 리플렉션의 내부 동작 메커니즘
 
 ### Class.forName(): 동적 해결의 복잡성
 
@@ -143,48 +143,43 @@ sequenceDiagram
 
 이는 **컴파일 타임 바인딩을 우회**하고 JVM이 동적으로 클래스 해결을 수행하도록 강제하며, 이는 정적으로 링크된 코드에 비해 본질적인 오버헤드를 추가합니다.
 
-### Method.invoke(): JNI 브릿지와 네이티브 전환
+### Method.invoke(): MethodAccessor를 통한 호출
 
-`Method.invoke()`를 통한 리플렉티브 메서드 호출은 **JNI를 포함하는 복잡한 작업**입니다. 이는 C++과의 상호운용성을 고려하여 설계한 핵심 메커니즘 중 하나입니다.
+`Method.invoke()`는 JNI의 `Call<Type>Method` 함수를 거치지 않습니다. HotSpot은 JDK 버전에 따라 다음과 같이 호출합니다.
+
+- **JDK 17 이하**: 처음에는 `NativeMethodAccessorImpl`이 JVM 내부 함수(`JVM_InvokeMethod`)를 통해 대상 메서드를 호출합니다. 같은 메서드를 약 15회(`sun.reflect.inflationThreshold`) 넘게 호출하면, 대상 메서드를 직접 호출하는 바이트코드 접근자 클래스(`GeneratedMethodAccessor`)를 런타임에 생성해 교체합니다. 이를 **inflation**이라고 하며, 이후 호출은 일반 메서드 호출처럼 JIT 최적화를 받을 수 있습니다.
+- **JDK 18 이상**: JEP 416에 따라 핵심 리플렉션이 `MethodHandle` 기반으로 다시 구현되었습니다.
 
 ```mermaid
 sequenceDiagram
     participant App as Java 애플리케이션
-    participant RefAPI as Reflection API
-    participant JVM as JVM 내부 (메타데이터/Klass)
-    participant JNI as JNI 브릿지 (네이티브 코드)
-    participant ExecEngine as JVM 실행 엔진 (인터프리터/JIT)
-    participant Target as 대상 객체/메서드
+    participant Method as Method 객체
+    participant Accessor as MethodAccessor
+    participant JVM as JVM 내부 (JVM_InvokeMethod)
+    participant Target as 대상 메서드
 
-    App->>RefAPI: Method.invoke(obj, args) 호출
-    RefAPI->>JVM: 대상 메서드 메타데이터 조회 (클래스 워드 통해)
-    alt setAccessible(true) 설정 여부
-        JVM-->>RefAPI: 접근 검사 우회 플래그 확인 (내부 C++ 코드)
-    else
-        JVM-->>RefAPI: 접근 검사 수행 (IllegalAccessException 발생 가능)
+    App->>Method: invoke(obj, args)
+    alt override 플래그(setAccessible(true))가 꺼져 있음
+        Method->>Method: 접근 검사 (IllegalAccessException 발생 가능)
     end
-    RefAPI->>JNI: 네이티브 호출 준비 (인수 마샬링)
-    JNI->>ExecEngine: Call<Type>Method/CallStatic<Type>Method 호출
-    ExecEngine->>Target: 대상 메서드 실행 (바이트코드 해석 또는 JIT 컴파일된 코드)
-    Target-->>ExecEngine: 결과/예외 반환
-    ExecEngine-->>JNI: 결과/예외 반환
-    JNI-->>RefAPI: 네이티브 호출 결과 반환 (결과 언마샬링)
-    RefAPI-->>App: 결과/예외 반환
+    Method->>Accessor: 호출 위임
+    alt JDK 17 이하, 호출 초기 (약 15회까지)
+        Accessor->>JVM: NativeMethodAccessorImpl
+        JVM->>Target: 대상 메서드 실행
+    else JDK 17 이하, inflation 이후
+        Accessor->>Target: 생성된 바이트코드 접근자가 직접 호출
+    else JDK 18 이상
+        Accessor->>Target: MethodHandle로 호출
+    end
+    Target-->>App: 결과 반환 (대상 메서드의 예외는 InvocationTargetException으로 감싸짐)
 ```
 
-실제 호출 과정에서는 다음과 같은 JNI 함수들이 사용됩니다:
-- `Call<Type>Method`: 인스턴스 메서드 호출
-- `CallStatic<Type>Method`: 정적 메서드 호출
-- `CallNonvirtual<Type>Method`: 비가상 메서드 호출
+인수 배열 생성, 기본형 박싱/언박싱, 접근 검사, 예외 래핑이 매 호출마다 추가되기 때문에 직접 호출보다 느립니다.
 
-이 과정은 자바 객체를 네이티브 타입으로 **마샬링**하고, JNI 경계를 넘어 반환값과 예외를 처리하는 복잡한 작업을 포함합니다.
+### Field.get()/set(): 필드 접근자
 
-### Field.get()/set(): 직접 메모리 접근
+필드에 대한 리플렉티브 접근도 JNI의 `Get<Type>Field`/`Set<Type>Field`를 거치지 않습니다.
+- **JDK 17 이하**: `Unsafe`로 필드 오프셋에 직접 읽고 쓰는 `UnsafeFieldAccessorImpl` 계열을 사용합니다.
+- **JDK 18 이상**: `MethodHandle` 기반 접근자를 사용합니다.
 
-필드에 대한 리플렉티브 접근도 JNI를 통해 이루어집니다:
-- `Get<Type>Field`: 인스턴스 필드 읽기
-- `Set<Type>Field`: 인스턴스 필드 쓰기
-- `GetStatic<Type>Field`: 정적 필드 읽기
-- `SetStatic<Type>Field`: 정적 필드 쓰기
-
-`setAccessible(true)`가 활성화되면, 이는 **객체의 메모리 레이아웃을 직접 조작**하여 private 필드까지 접근할 수 있게 됩니다. 이는 자바의 고수준 안전성과 추상화를 우회하는 **저수준 메모리 조작**입니다.
+`setAccessible(true)`는 객체의 메모리 레이아웃을 바꾸지 않습니다. `AccessibleObject`의 `override` 플래그를 켜서 이후 호출에서 **접근 제어 검사를 생략**하게 할 뿐이며, 이를 통해 private 필드와 메서드에도 접근할 수 있게 됩니다. (Java 9+ 모듈 시스템에서는 대상 패키지가 `opens` 되어 있지 않으면 `InaccessibleObjectException`이 발생합니다.)

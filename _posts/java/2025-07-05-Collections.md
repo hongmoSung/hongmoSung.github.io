@@ -195,7 +195,7 @@ System.out.println(sortedNumbers); // [1, 2, 3]
 
 // 범위 연산 가능
 NavigableSet<Integer> subset = ((TreeSet<Integer>) sortedNumbers)
-    .subSet(1, 3); // 1 이상 3 미만
+    .subSet(1, true, 3, false); // 1 이상 3 미만 (subSet(1, 3)은 SortedSet을 반환)
 ```
 
 ### 4.4 Set 컬렉션 비교
@@ -486,8 +486,13 @@ List<String> immutableList = List.of("a", "b", "c");
 Set<String> immutableSet = Set.of("x", "y", "z");
 Map<String, Integer> immutableMap = Map.of("key", 1);
 
-// 방어적 복사
+// 방어적 복사: 원본이 바뀌어도 영향을 받지 않는 불변 복사본
 public List<String> getItems() {
+    return List.copyOf(items);
+}
+
+// 읽기 전용 뷰: 복사가 아니므로 원본 items 가 바뀌면 반환값에도 반영됨
+public List<String> getItemsView() {
     return Collections.unmodifiableList(items);
 }
 ```

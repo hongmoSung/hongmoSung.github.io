@@ -222,7 +222,8 @@ PUT /products
 **MySQL 비교:**
 
 ```sql
-CREATE TABLE products;
+-- 개념상 비교. MySQL 은 컬럼 없이 테이블을 만들 수 없어 실제로는 STEP 2 의 컬럼 정의와 함께 생성한다.
+CREATE TABLE products (...);
 ```
 
 **예상 응답:**
@@ -347,8 +348,11 @@ GET /products/_search
 
 ```sql
 SELECT *
-FROM products;
+FROM products
+LIMIT 10;
 ```
+
+> `_search` 는 `size` 를 지정하지 않으면 기본으로 **10건**만 돌려준다. 더 받으려면 `size` 를 지정하거나 `search_after` 같은 페이지네이션을 쓴다.
 
 **예상 응답:**
 

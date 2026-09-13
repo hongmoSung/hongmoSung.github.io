@@ -65,8 +65,8 @@ public class Main {
         s1.name = "김철수";
         s2.name = "이영희";
         
-        System.out.println(s1);  // Student@15db9742 (주소값)
-        System.out.println(s2);  // Student@6d06d69c (주소값)
+        System.out.println(s1);  // Student@15db9742 (해시코드 16진수, 메모리 주소가 아님)
+        System.out.println(s2);  // Student@6d06d69c (해시코드 16진수, 메모리 주소가 아님)
     }
 }
 ```
@@ -519,7 +519,7 @@ class Student {
 | 구분    | this        | this()       |
 |-------|-------------|--------------|
 | 의미    | 현재 객체 참조    | 다른 생성자 호출    |
-| 사용 위치 | 클래스 내부 어디서나 | 생성자 첫 줄에만    |
+| 사용 위치 | 인스턴스 메서드·생성자·인스턴스 초기화 블록 (static 영역 불가) | 생성자 첫 줄에만    |
 | 목적    | 필드와 매개변수 구분 | 생성자 코드 중복 제거 |
 
 ## 참조
