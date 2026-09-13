@@ -9,11 +9,27 @@
     float: none;
     width: 100%;
     padding-inline-end: 0;
+
+    &.page--has-toc {
+      .page__content {
+        padding-inline-end: $right-sidebar-width-narrow;
+      }
+
+      .sidebar__right {
+        margin-inline-end: 0;
+      }
+    }
   }
 
   @include breakpoint($x-large) {
     width: 100%;
     padding-inline-end: 0;
+
+    &.page--has-toc {
+      .page__content {
+        padding-inline-end: $right-sidebar-width;
+      }
+    }
   }
 }
 
