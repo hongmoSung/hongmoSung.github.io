@@ -15,7 +15,7 @@
         padding-inline-end: $right-sidebar-width-narrow;
       }
 
-      .sidebar__right {
+      .sidebar__right:not(.sticky) {
         margin-inline-end: 0;
       }
     }
