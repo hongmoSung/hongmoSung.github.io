@@ -17,14 +17,21 @@
       // 텍스트 노드인 경우
       if (node.nodeType === Node.TEXT_NODE) {
         const text = node.textContent;
-        // ==...== 패턴이 있는지 확인
-        if (/==.+?==/g.test(text)) {
-          // 패턴을 <mark> 태그로 변환
-          const newHTML = text.replace(/==(.+?)==/g, '<mark>$1</mark>');
-          const span = document.createElement('span');
-          span.innerHTML = newHTML;
-          node.parentNode.replaceChild(span, node);
-        }
+        const matches = Array.from(text.matchAll(/==(.+?)==/g));
+        if (!matches.length) return;
+
+        // 원문은 텍스트로 유지해 <String> 같은 문자열이 태그가 되지 않게 한다.
+        const fragment = document.createDocumentFragment();
+        let offset = 0;
+        matches.forEach(match => {
+          fragment.appendChild(document.createTextNode(text.slice(offset, match.index)));
+          const mark = document.createElement('mark');
+          mark.textContent = match[1];
+          fragment.appendChild(mark);
+          offset = match.index + match[0].length;
+        });
+        fragment.appendChild(document.createTextNode(text.slice(offset)));
+        node.parentNode.replaceChild(fragment, node);
       }
       // 자식 노드가 있는 경우 재귀적으로 처리
       else if (node.childNodes && node.childNodes.length > 0) {

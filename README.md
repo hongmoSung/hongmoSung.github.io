@@ -52,9 +52,11 @@ toc: true          # 선택
 
 ## 배포
 
-`master` 에 push 하면 GitHub Actions 가 빌드해서 Pages 로 배포합니다. Pages 의 `build_type` 은 `workflow` 이며, 클래식 브랜치 빌드는 쓰지 않습니다.
+`master` 대상 PR에서는 GitHub Actions가 프로덕션 빌드를 검증합니다. `master`에 push하거나 `master`에서 수동 실행하면 빌드 후 Pages로 배포합니다. 배포 권한은 배포 작업에만 부여합니다. Pages의 `build_type`은 `workflow`입니다.
 
-빌드·배포 상세, 테마 업그레이드 절차, 커스터마이즈된 테마 파일 목록은 [`CLAUDE.md`](CLAUDE.md) 에 정리되어 있습니다.
+CSS·JS URL에는 실제 빌드 결과의 내용 해시가 자동으로 붙습니다. 글만 수정하면 변경되지 않은 자산의 캐시 버전은 유지됩니다.
+
+빌드·배포 상세, 테마 업그레이드 절차, 커스터마이즈된 테마 파일 목록과 에이전트 공통 작업 지침은 [`AGENTS.md`](AGENTS.md)에 정리되어 있습니다. `CLAUDE.md`는 이 공통 지침을 안내하는 진입점입니다.
 
 ## 라이선스
 

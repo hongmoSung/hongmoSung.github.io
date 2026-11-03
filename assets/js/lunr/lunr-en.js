@@ -1,73 +1,97 @@
----
-layout: none
----
+/* global lunr, store */
 
-var idx = lunr(function () {
-  this.field('title')
-  this.field('excerpt')
-  this.field('categories')
-  this.field('tags')
-  this.ref('id')
+(() => {
+  'use strict';
 
-  this.pipeline.remove(lunr.trimmer)
+  const searchInput = document.querySelector('input#search');
+  const resultsContainer = document.getElementById('results');
+  if (!(searchInput instanceof HTMLInputElement) || !resultsContainer) return;
 
-  for (var item in store) {
-    this.add({
-      title: store[item].title,
-      excerpt: store[item].excerpt,
-      categories: store[item].categories,
-      tags: store[item].tags,
-      id: item
-    })
-  }
-});
+  /** @type {lunr.Index} */
+  const searchIndex = lunr(/** @this {lunr.Builder} */ function () {
+    ['title', 'excerpt', 'categories', 'tags'].forEach(field => this.field(field, {}));
+    this.ref('id');
+    this.pipeline.remove(lunr.trimmer);
 
-$(document).ready(function() {
-  $('input#search').on('keyup', function () {
-    var resultdiv = $('#results');
-    var query = $(this).val().toLowerCase();
-    var result =
-      idx.query(function (q) {
-        query.split(lunr.tokenizer.separator).forEach(function (term) {
-          q.term(term, { boost: 100 })
-          if(query.lastIndexOf(" ") != query.length-1){
-            q.term(term, {  usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 10 })
-          }
-          if (term != ""){
-            q.term(term, {  usePipeline: false, editDistance: 1, boost: 1 })
-          }
-        })
-      });
-    resultdiv.empty();
-    resultdiv.prepend('<p class="results__found">'+result.length+' {{ site.data.ui-text[site.locale].results_found | default: "Result(s) found" }}</p>');
-    for (var item in result) {
-      var ref = result[item].ref;
-      if(store[ref].teaser){
-        var searchitem =
-          '<div class="list__item">'+
-            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
-              '<h2 class="archive__item-title" itemprop="headline">'+
-                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
-              '</h2>'+
-              '<div class="archive__item-teaser">'+
-                '<img src="'+store[ref].teaser+'" alt="">'+
-              '</div>'+
-              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
-            '</article>'+
-          '</div>';
-      }
-      else{
-    	  var searchitem =
-          '<div class="list__item">'+
-            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
-              '<h2 class="archive__item-title" itemprop="headline">'+
-                '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
-              '</h2>'+
-              '<p class="archive__item-excerpt" itemprop="description">'+store[ref].excerpt.split(" ").splice(0,20).join(" ")+'...</p>'+
-            '</article>'+
-          '</div>';
-      }
-      resultdiv.append(searchitem);
-    }
+    store.forEach((document, id) => {
+      this.add({
+        title: document.title,
+        excerpt: document.excerpt,
+        categories: document.categories,
+        tags: document.tags,
+        id
+      }, {});
+    });
   });
-});
+
+  // Lunr assigns these constants dynamically to a String object.
+  /** @type {String & {TRAILING: number}} */
+  const wildcards = lunr.Query.wildcard;
+
+  /**
+   * @param {string} tag
+   * @param {string} className
+   * @param {string} [text]
+   * @returns {HTMLElement}
+   */
+  function createElement(tag, className, text) {
+    const element = document.createElement(tag);
+    element.className = className;
+    if (text !== undefined) element.textContent = text;
+    return element;
+  }
+
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const terms = query.split(lunr.tokenizer.separator).filter(term => /[\p{L}\p{N}]/u.test(term));
+    const results = terms.length ? searchIndex.query(/** @param {lunr.Query} searchQuery */ searchQuery => {
+      terms.forEach(term => {
+        searchQuery.term(term, { boost: 100 });
+        if (!query.endsWith(' ')) {
+          searchQuery.term(term, { usePipeline: false, wildcard: wildcards.TRAILING, boost: 10 });
+        }
+        if (Array.from(term).length >= 3) {
+          searchQuery.term(term, { usePipeline: false, editDistance: 1, boost: 1 });
+        }
+      });
+    }) : [];
+
+    const fragment = document.createDocumentFragment();
+    const resultsLabel = searchInput.dataset.resultsFound || 'Result(s) found';
+    fragment.appendChild(createElement('p', 'results__found', `${results.length} ${resultsLabel}`));
+
+    results.forEach(result => {
+      const entry = store[result.ref];
+      const item = createElement('div', 'list__item');
+      const article = createElement('article', 'archive__item');
+      article.setAttribute('itemscope', '');
+      article.setAttribute('itemtype', 'https://schema.org/CreativeWork');
+
+      const title = createElement('h2', 'archive__item-title');
+      title.setAttribute('itemprop', 'headline');
+      const link = document.createElement('a');
+      link.href = entry.url;
+      link.rel = 'permalink';
+      link.textContent = entry.title;
+      title.appendChild(link);
+      article.appendChild(title);
+
+      if (entry.teaser) {
+        const teaser = createElement('div', 'archive__item-teaser');
+        const image = document.createElement('img');
+        image.src = entry.teaser;
+        image.alt = '';
+        teaser.appendChild(image);
+        article.appendChild(teaser);
+      }
+
+      const excerpt = createElement('p', 'archive__item-excerpt', `${entry.excerpt.split(' ').slice(0, 20).join(' ')}...`);
+      excerpt.setAttribute('itemprop', 'description');
+      article.appendChild(excerpt);
+      item.appendChild(article);
+      fragment.appendChild(item);
+    });
+
+    resultsContainer.replaceChildren(fragment);
+  });
+})();

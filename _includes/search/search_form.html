@@ -7,7 +7,7 @@
     <label class="sr-only" for="search">
       {{ site.data.ui-text[locale].search_label_text | default: 'Enter your search term...' }}
     </label>
-    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="{{ site.data.ui-text[locale].search_placeholder_text | default: 'Enter your search term...' }}" />
+    <input type="search" id="search" class="search-input" tabindex="-1" data-results-found="{{ site.data.ui-text[locale].results_found | default: 'Result(s) found' | escape }}" placeholder="{{ site.data.ui-text[locale].search_placeholder_text | default: 'Enter your search term...' }}" />
   </form>
   <div id="results" class="results"></div>
   {%- when "google" -%}
