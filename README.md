@@ -52,7 +52,7 @@ toc: true          # 선택
 
 ## 배포
 
-`master` 대상 PR에서는 GitHub Actions가 프로덕션 빌드를 검증합니다. `master`에 push하거나 `master`에서 수동 실행하면 빌드 후 Pages로 배포합니다. 배포 권한은 배포 작업에만 부여합니다. Pages의 `build_type`은 `workflow`입니다.
+`main` 대상 PR에서는 GitHub Actions가 프로덕션 빌드를 검증합니다. `main`에 push하거나 `main`에서 수동 실행하면 빌드 후 Pages로 배포합니다. 배포 권한은 배포 작업에만 부여합니다. Pages의 `build_type`은 `workflow`입니다.
 
 CSS·JS URL에는 실제 빌드 결과의 내용 해시가 자동으로 붙습니다. 글만 수정하면 변경되지 않은 자산의 캐시 버전은 유지됩니다.
 

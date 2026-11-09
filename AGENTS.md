@@ -22,13 +22,13 @@ bundle exec jekyll clean
 
 ## Deployment
 
-Built and deployed by **GitHub Actions** (`.github/workflows/pages.yml`) on every push to `master` —
+Built and deployed by **GitHub Actions** (`.github/workflows/pages.yml`) on every push to `main` —
 *not* by Pages' classic branch build. Pages' `build_type` is set to `workflow`.
 
 - Runs `bundle exec jekyll build` with **`JEKYLL_ENV=production`**. That env var is mandatory: the classic
   build injected it automatically, and without it Utterances comments do not render
-- Pull requests targeting `master` run the same production build. Artifact upload and deployment run only
-  on non-PR events on `master`; Pages/OIDC write permissions are scoped to the deploy job.
+- Pull requests targeting `main` run the same production build. Artifact upload and deployment run only
+  on non-PR events on `main`; Pages/OIDC write permissions are scoped to the deploy job.
 - Build status: https://github.com/hongmoSung/hongmoSung.github.io/actions
 - `.github/dependabot.yml` watches both `github-actions` and `bundler` monthly, so the action pins and
   `Gemfile.lock` do not silently rot again

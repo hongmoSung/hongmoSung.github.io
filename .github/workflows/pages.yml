@@ -2,9 +2,9 @@ name: Deploy site to Pages
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -34,12 +34,12 @@ jobs:
           JEKYLL_ENV: production
 
       - uses: actions/upload-pages-artifact@v5
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         with:
           path: _site
 
   deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     permissions:
       pages: write
